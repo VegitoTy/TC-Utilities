@@ -1,0 +1,17 @@
+{
+    "color": {
+        "default": "0x3498db",
+        "green": "0x2ecc71",
+        "red": "0xe74c3c",
+        "black": "0",
+        "blue": "0x3498db"
+    },
+    "logging": {
+        "startup": 997443915177271357
+    },
+    "bot": {
+        "prefix": [". ", "."],
+        "default_guild": [981605071609532436],
+        "owner_ids": [766508994390523926]
+        }
+}
