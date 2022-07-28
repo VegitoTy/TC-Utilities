@@ -22,7 +22,7 @@ class Mod(commands.Cog):
         async with self.bot.censordb.cursor() as cursor:
             await cursor.execute("CREATE TABLE IF NOT EXISTS censors (guild INTEGER, word TEXT)")
 
-    @commands.command(name='Eval', aliases=['eval', 'ev'])
+    @commands.command(name='Eval', aliases=['eval', 'ev'], description="Owner Only So No Use Of Description lol.")
     @commands.is_owner()
     async def _eval(self, ctx, *, cmd):
         """Evaluates input.
@@ -82,7 +82,7 @@ a
         result = (await eval(f"{fn_name}()", env))
         await ctx.send(result)
     
-    @commands.command(name='Timeout', aliases=['timeout', 'To', 'to'])
+    @commands.command(name='Timeout', aliases=['timeout', 'To', 'to'], description=f"Times Out A Member.\nUsage:- &To [member] [duration] [reason=None]")
     @commands.check_any(commands.has_permissions(moderate_members=True), commands.is_owner())
     async def _timeout(self, ctx:commands.Context, member:discord.Member, duration:str='2h', reason:str=None):
         "Times Out A Member."
@@ -114,7 +114,7 @@ a
         except discord.Forbidden:
             await ctx.reply('I do not have the required permissions to do that.')
     
-    @commands.command(name='RemoveTimeout', aliases=['removetimeout', 'Rto', 'rto'])
+    @commands.command(name='RemoveTimeout', aliases=['removetimeout', 'Rto', 'rto'], description=f"Removes Timeout From A Member.\nUsage:- &Rto [member] [reason=None]")
     @commands.check_any(commands.has_permissions(moderate_members=True), commands.is_owner())
     async def _rto(self, ctx:commands.Context, member:discord.Member, reason:str=None):
         "Removes Timeout From A Member."
@@ -133,7 +133,7 @@ a
         except discord.Forbidden:
             await ctx.reply('I do not have the required permissions to do that.')
 
-    @commands.command(name='Ban', aliases= ['ban', 'b'])
+    @commands.command(name='Ban', aliases= ['ban', 'b'], description=f"Bans A User. Whether Or Not The User Is In The Server Or Not\nUsage:- &Ban [user] [reason=None]")
     @commands.check_any(commands.has_permissions(kick_members=True, ban_members=True), commands.is_owner())
     async def _ban(self, ctx:commands.Context, user:discord.User, reason:str=None):
         "Bans A User. Whether Or Not The User Is In The Server Or Not"
@@ -158,15 +158,15 @@ a
         else:
             await ctx.send(f'Your not high enough in the role hierarchy to do that.')
     
-    @commands.command(name='Unban', aliases=['unban'])
+    @commands.command(name='Unban', aliases=['unban'], description=f"Unban A User.\nUsage:- &Unban [user] [reason=None]")
     @commands.check_any(commands.has_permissions(ban_members=True), commands.is_owner())
-    async def _unban(self, ctx:commands.Context, *, user:discord.User):
+    async def _unban(self, ctx:commands.Context, *, user:discord.User, reason:str="No Reason Provided"):
         "Unban A User."
 
-        await ctx.guild.unban(user)
+        await ctx.guild.unban(user, reason=reason)
         await ctx.send(f'Unbanned {user}')
     
-    @commands.command(name='Kick', aliases=['kick', 'k'])
+    @commands.command(name='Kick', aliases=['kick', 'k'], description=f"Kicks A Member.\nUsage:- &Kick [member] [reason=None]")
     @commands.check_any(commands.has_permissions(kick_members=True), commands.is_owner())
     async def _kick(self, ctx:commands.Context, user:discord.Member, reason:str=None):
         "Kicks A Member."
@@ -180,7 +180,7 @@ a
         else:
             await ctx.send(f'Your not high enough in the role hierarchy to do that.')
         
-    @commands.group(name='Purge', invoke_without_command=True, case_insensitive=True, aliases=['purge'])
+    @commands.group(name='Purge', invoke_without_command=True, case_insensitive=True, aliases=['purge'], description=f"Clears A Amount Of Messages.\nUsage:- &Purge [amount]")
     @commands.check_any(commands.has_permissions(manage_messages=True), commands.is_owner())
     async def _purge(self, ctx:commands.Context, amount:int):
         "Clears A Amount Of Messages."
@@ -189,7 +189,7 @@ a
         await ctx.channel.purge(limit=amount)
         await ctx.send(f'Purged {amount} Messages.', delete_after=6)
     
-    @_purge.command(name='until', aliases=['unt'])
+    @_purge.command(name='until', aliases=['unt'], description=f"Clears The Messages After A Message.\nUsage:- &Purge Until [message]")
     @commands.check_any(commands.has_permissions(manage_messages=True), commands.is_owner())
     async def _until(self, ctx:commands.Context, message:discord.Message):
         "Clears The Messages After A Message."
@@ -202,7 +202,7 @@ a
         except:
             await ctx.send('Invalid message')
     
-    @_purge.command(name='user')
+    @_purge.command(name='user', description=f"Clear all messages of <User> in every channel within the last [n=5] minutes\nUsage:- &Purge User [user] [number_of_minutes=5]")
     @commands.check_any(commands.has_permissions(manage_messages=True), commands.is_owner())
     async def purge_user(self, ctx:commands.Context, user:discord.User, num_minutes:int=5):
         """Clear all messages of <User> in every channel within the last [n=5] minutes"""

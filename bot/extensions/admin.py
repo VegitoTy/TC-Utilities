@@ -50,14 +50,14 @@ class Admin(commands.Cog):
     def __init__(self, bot) -> None:
         self.bot = bot
         
-    @commands.group(name='prune', invoke_without_command=True, case_insensitive=True)
+    @commands.group(name='prune', invoke_without_command=True, case_insensitive=True, description="Prune's The Specified Set Of Members\nUsage:- &Prune")
     @commands.check_any(commands.has_permissions(administrator=True), commands.is_owner())
     async def _prune(self, ctx:commands.Context):
         "Prune's The Specified Set Of Members"
 
         await ctx.send('Please tell from the list of subcommands that what exactly to do.')
     
-    @_prune.command(name='NewAccounts')
+    @_prune.command(name='NewAccounts', description="Prune New Accounts.\nUsage:- &Prune Newaccounts")
     @commands.check_any(commands.has_permissions(administrator=True), commands.is_owner())
     async def _newaccounts(self, ctx:commands.Context):
         "Prune New Accounts."

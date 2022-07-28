@@ -16,12 +16,12 @@ class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="Ping", aliases=['ping'])
+    @commands.command(name="Ping", aliases=['ping'], description="Shows The Latency Of The Bot.")
     async def ping(self, ctx:commands.Context):
         """Shows The Latency Of The Bot"""
         await ctx.send(f'Latency :- `{round(self.bot.latency * 1000)} ms`')
 
-    @commands.command(name='AV', aliases=['av'])
+    @commands.command(name='AV', aliases=['av'], description=f"Shows Someone's Avatar.\nUsage:- &Av [user]")
     async def avatar(self, ctx:commands.Context, member:discord.Member=None):
         """Shows Someone's Avatar."""
         if member == None:
@@ -31,7 +31,7 @@ class Utility(commands.Cog):
         embed.set_image(url=member.display_avatar)
         await ctx.reply(embed=embed)
 
-    @commands.command(aliases=['embed'], name='Embed')
+    @commands.command(aliases=['embed'], name='Embed', description=f"Creates A Embed Separate The Title From The Description With |\nUsage:- &Embed Title|Description")
     @commands.check_any(commands.has_permissions(administrator=True), commands.is_owner())
     async def _embed(self, ctx:commands.Context, channel:discord.TextChannel, *, text:str):
         """Creates A Embed Separate The Title From The Description With |"""
@@ -44,14 +44,14 @@ class Utility(commands.Cog):
             await ctx.message.add_reaction("❌")
             raise e
 
-    @commands.command(name='Echo', aliases=['echo'])
+    @commands.command(name='Echo', aliases=['echo'], description=f"Make The Bot Send A Message\nUsage:- &Echo [message]")
     @commands.check_any(commands.has_permissions(administrator=True), commands.is_owner())
     async def _echo(self, ctx:commands.Context, *, message:str):
         """Make The Bot Send A Message"""
         await ctx.message.delete()
         await ctx.send(message)
     
-    @commands.command(name='Userinfo', aliases=['whois', 'ui', 'UI'])
+    @commands.command(name='Userinfo', aliases=['whois', 'ui', 'UI'], description=f"Shows The Info Of A User\nUsage:- &Ui [User]")
     async def _ui(self, ctx:commands.Context, user:discord.User=None):
         """Shows The Info Of A User"""
         if not user:
@@ -65,7 +65,7 @@ class Utility(commands.Cog):
             embed.set_footer(text=f'Requested by {ctx.author}', icon_url=ctx.author.display_avatar.url)
             embed.add_field(name='ID: ', value=user.id, inline=False)
             embed.add_field(name='Name: ',value=user.name,inline=False)
-            embed.add_field(name='Created at:',value=user.created_at.timestamp(),inline=False)
+            embed.add_field(name='Created at:',value=user.created_at.strftime("%A, %B %d %Y @ %H:%M %p"),inline=False)
             if user.bot:
                 embed.add_field(name='Bot?', value='<:tick:1001065955213975604>')
             else:
@@ -88,8 +88,8 @@ class Utility(commands.Cog):
             embed.set_footer(text=f'Requested by {ctx.author}', icon_url=ctx.author.display_avatar.url)
             embed.add_field(name='ID: ',value=member.id,inline=False)
             embed.add_field(name='Name:',value=member.name,inline=False)
-            embed.add_field(name='Created at:',value=str(member.created_at)[:-22],inline=False)
-            embed.add_field(name='Joined at:',value=str(member.joined_at)[:-22],inline=False)
+            embed.add_field(name='Created at:',value=member.created_at.strftime("%A, %B %d %Y @ %H:%M %p"),inline=False)
+            embed.add_field(name='Joined at:',value=member.joined_at.strftime("%A, %B %d %Y @ %H:%M %p"),inline=False)
             if ignored_roles == 0:
                 embed.add_field(name=f'Roles: {len(member.roles)}', value=f'{e[:-2]}',inline=False)
             else:

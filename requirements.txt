@@ -16,7 +16,7 @@ dnspython
 docopt
 ed25519
 frozenlist
-discord.py @ git+https://github.com/Rapptz/discord.py
+discord.py @ git+https://github.com/Rapptz/discord.py#egg=discord.py[voice]
 idna
 multidict
 nusex @ git+https://github.com/nusex/nusex@1f39fe0f96f8b7d23865c8d6dcc474acc2a18ada
@@ -38,3 +38,4 @@ beautifulsoup4
 spotipy
 youtube_dl
 PyNaCl
+pillow
