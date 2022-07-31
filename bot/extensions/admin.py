@@ -21,7 +21,7 @@ class YesNoView(discord.ui.View):
         if interaction.user.guild_permissions.administrator:
             banned_list = ""
             for member in interaction.guild.members:
-                if time.time() - member.created_at.timestamp() < 604800:
+                if time.time() - member.created_at.timestamp() <= 1209600:
                     if member.bot:
                         pass
                     else:

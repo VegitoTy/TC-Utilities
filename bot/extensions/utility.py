@@ -59,19 +59,22 @@ class Utility(commands.Cog):
         
         member = await ctx.guild.query_members(user_ids=[user.id])
         if len(member) == 0:
+            created_at = user.created_at
             embed = discord.Embed(colour=0x3498db, timestamp=ctx.message.created_at)
             embed.set_author(name=f'User Info - {user}')
             embed.set_thumbnail(url=user.avatar.url)
             embed.set_footer(text=f'Requested by {ctx.author}', icon_url=ctx.author.display_avatar.url)
             embed.add_field(name='ID: ', value=user.id, inline=False)
             embed.add_field(name='Name: ',value=user.name,inline=False)
-            embed.add_field(name='Created at:',value=user.created_at.strftime("%A, %B %d %Y @ %H:%M %p"),inline=False)
+            embed.add_field(name='Created at:',value=discord.utils.format_dt(dt=created_at),inline=False)
             if user.bot:
                 embed.add_field(name='Bot?', value='<:tick:1001065955213975604>')
             else:
                 embed.add_field(name='Bot?', value='<:Cross:997740794171629590>')
         else:
             member:discord.Member = member[0]
+            created_at = member.created_at
+            joined_at = member.joined_at
             rlist = []
             ignored_roles = 0
             for role in member.roles:
@@ -88,8 +91,8 @@ class Utility(commands.Cog):
             embed.set_footer(text=f'Requested by {ctx.author}', icon_url=ctx.author.display_avatar.url)
             embed.add_field(name='ID: ',value=member.id,inline=False)
             embed.add_field(name='Name:',value=member.name,inline=False)
-            embed.add_field(name='Created at:',value=member.created_at.strftime("%A, %B %d %Y @ %H:%M %p"),inline=False)
-            embed.add_field(name='Joined at:',value=member.joined_at.strftime("%A, %B %d %Y @ %H:%M %p"),inline=False)
+            embed.add_field(name='Created at:',value=discord.utils.format_dt(created_at),inline=False)
+            embed.add_field(name='Joined at:',value=discord.utils.format_dt(joined_at),inline=False)
             if ignored_roles == 0:
                 embed.add_field(name=f'Roles: {len(member.roles)}', value=f'{e[:-2]}',inline=False)
             else:

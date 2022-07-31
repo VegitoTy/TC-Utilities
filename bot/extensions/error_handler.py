@@ -17,15 +17,14 @@ class error_handler(commands.Cog):
     @commands.Cog.listener('on_command_error')
     async def errorhandler(self, ctx:commands.Context, exception):
         sus = False
-
-        if isinstance(exception, commands.CommandInvokeError):
-          description = f"> Something went wrong during invocation of command `{ctx.command}`."
-          sus = True
         
         exception = exception.__cause__ or exception
 
         if isinstance(exception, commands.NotOwner):
             description = f"> You are not the owner of this bot."
+        elif isinstance(exception, commands.CommandInvokeError):
+          description = f"> Something went wrong during invocation of command `{ctx.command}`."
+          sus = True
         elif isinstance(exception, commands.CommandOnCooldown):
             description = f"> This command is on cooldown. Retry in `{exception.retry_after:.2f}` seconds."
         elif isinstance(exception, commands.errors.CheckFailure):
